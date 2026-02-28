@@ -1,6 +1,6 @@
 # Entrance Exam Progress Tracker
 ![Project Dashboard](image.png)
-A specialized web application designed for candidates preparing for competitive engineering entrance examinations (JEE/BITSAT). This tool enables structured syllabus management and real-time progress monitoring across Physics, Chemistry, and Mathematics.
+A specialized web application designed for candidates preparing for competitive engineering entrance examinations (JEE/BITSAT). This tool enables structured syllabus management and real-time progress monitoring across Physics, Chemistry, and Mathematics. (For ease of access and understanding the name for the tracker is very generic sadly, couldn't think of a better name).
 
 **Live Link:** https://ujeshauchitha-glitch.github.io/Entrance-exam-progress-tracker-website/
 

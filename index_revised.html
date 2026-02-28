@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEE/BITSAT Syllabus Tracker</title>
+    <style>
+        :root {
+            --navy: #1e40af;
+            --navy-light: #3b82f6;
+            --navy-dark: #1e3a8a;
+            --maroon: #be123c;
+            --maroon-light: #e11d48;
+            --maroon-dark: #9f1239;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --darker-card: #1a2438;
+            --dark-border: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --accent-purple: #8b5cf6;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--navy-dark), var(--maroon-dark));
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--navy-light);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--maroon-light), var(--navy-light), var(--accent-purple));
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .exam-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .exam-tab {
+            padding: 12px 24px;
+            background: var(--darker-card);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .exam-tab.active {
+            background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+            border-color: var(--maroon-light);
+            box-shadow: 0 0 20px rgba(190, 18, 60, 0.4);
+        }
+
+        .exam-tab:hover:not(.active) {
+            background: var(--dark-card);
+            transform: translateY(-2px);
+            border-color: var(--navy-light);
+        }
+
+        .exam-icon {
+            font-size: 1.2rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, var(--dark-card), var(--darker-card));
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid var(--dark-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--maroon), var(--navy));
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            border-color: var(--navy-light);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            color: var(--maroon-light);
+            font-size: 1.4rem;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background-color: #334155;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #34d399);
+            border-radius: 10px;
+            transition: width 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%,
+                transparent
+            );
+            z-index: 1;
+            background-size: 20px 20px;
+            animation: move 2s linear infinite;
+        }
+
+        @keyframes move {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 20px 20px;
+            }
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--dark-border);
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--dark-border);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            background-color: var(--darker-card);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--maroon-light);
+            box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.3);
+        }
+
+        .search-bar {
+            flex: 2;
+        }
+
+        .subject-panel {
+            margin-bottom: 20px;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            border: 1px solid var(--dark-border);
+        }
+
+        .subject-header {
+            padding: 20px;
+            background: linear-gradient(90deg, var(--navy-dark), var(--navy));
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--navy-light);
+        }
+
+        .subject-header:hover {
+            background: linear-gradient(90deg, var(--navy), var(--navy-light));
+        }
+
+        .subject-header h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .subject-icon {
+            font-size: 1.5rem;
+        }
+
+        .subject-content {
+            display: none;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .subject-content.active {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        th {
+            background: linear-gradient(to bottom, var(--darker-card), var(--dark-card));
+            font-weight: 600;
+            color: var(--text-secondary);
+            position: sticky;
+            top: 0;
+            border-bottom: 2px solid var(--navy);
+        }
+
+        tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .priority-high {
+            color: var(--maroon-light);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .priority-medium {
+            color: var(--warning);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .priority-low {
+            color: var(--success);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .completion-not-started {
+            color: var(--text-muted);
+        }
+
+        .completion-in-progress {
+            color: var(--warning);
+        }
+
+        .completion-completed {
+            color: var(--success);
+        }
+
+        .confidence-bar {
+            display: flex;
+            gap: 3px;
+        }
+
+        .confidence-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #334155;
+        }
+
+        .confidence-dot.filled {
+            background-color: var(--success);
+        }
+
+        .confidence-dot.filled.warning {
+            background-color: var(--warning);
+        }
+
+        .confidence-dot.filled.danger {
+            background-color: var(--maroon-light);
+        }
+
+        .exam-tracker {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .exam-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #334155;
+            transition: var(--transition);
+        }
+
+        .exam-indicator.active {
+            background-color: var(--maroon-light);
+            box-shadow: 0 0 8px var(--maroon-light);
+        }
+
+        .exam-indicator.active.jee-mains {
+            background-color: var(--navy-light);
+            box-shadow: 0 0 8px var(--navy-light);
+        }
+
+        .exam-indicator.active.jee-advanced {
+            background-color: var(--accent-purple);
+            box-shadow: 0 0 8px var(--accent-purple);
+        }
+
+        .memorization {
+            color: var(--warning);
+        }
+
+        .revision-needed {
+            color: var(--maroon-light);
+        }
+
+        .notes {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--dark-border);
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            background-color: var(--darker-card);
+            color: var(--text-primary);
+            resize: vertical;
+            min-height: 60px;
+            transition: var(--transition);
+        }
+
+        .notes:focus {
+            outline: none;
+            border-color: var(--maroon-light);
+            box-shadow: 0 0 0 2px rgba(190, 18, 60, 0.2);
+        }
+
+        .level-foundation {
+            color: var(--navy-light);
+        }
+
+        .level-practice {
+            color: var(--warning);
+        }
+
+        .level-mastery {
+            color: var(--success);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--maroon-light), var(--maroon));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(190, 18, 60, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, var(--navy-light), var(--navy));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(30, 64, 175, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background: rgba(30, 64, 175, 0.1);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--navy);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--navy-light);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            th, td {
+                padding: 10px 8px;
+            }
+            .controls {
+                flex-direction: column;
+            }
+            .control-group {
+                min-width: 100%;
+            }
+            .exam-tabs {
+                flex-direction: column;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px var(--navy-light), 0 0 10px var(--navy-light);
+            }
+            to {
+                box-shadow: 0 0 10px var(--maroon-light), 0 0 20px var(--maroon-light);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="glow">
+            <h1>JEE/BITSAT Syllabus Tracker</h1>
+            <p class="subtitle">Track your preparation progress for JEE Main, JEE Advanced, and BITSAT with detailed analytics</p>
+        </header>
+
+        <div class="exam-tabs">
+            <div class="exam-tab active" data-exam="all">
+                <span class="exam-icon">📊</span>
+                All Exams
+            </div>
+            <div class="exam-tab" data-exam="jee-mains">
+                <span class="exam-icon">🎯</span>
+                JEE Main
+            </div>
+            <div class="exam-tab" data-exam="jee-advanced">
+                <span class="exam-icon">🚀</span>
+                JEE Advanced
+            </div>
+            <div class="exam-tab" data-exam="bitsat">
+                <span class="exam-icon">🔬</span>
+                BITSAT
+            </div>
+        </div>
+
+        <section class="dashboard">
+            <div class="card">
+                <h3><span class="card-icon">📈</span> Overall Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overall-progress" style="width: 0%"></div>
+                </div>
+                <p id="overall-percentage">0%</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="completed-count">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="inprogress-count">0</div>
+                        <div class="stat-label">In Progress</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="notstarted-count">0</div>
+                        <div class="stat-label">Not Started</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3><span class="card-icon">⚠️</span> High Priority Remaining</h3>
+                <p id="high-priority-count">0 chapters</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="high-priority-progress" style="width: 0%; background: linear-gradient(90deg, var(--maroon-light), #f43f5e);"></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3><span class="card-icon">🔄</span> Need Revision</h3>
+                <p id="revision-count">0 chapters</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="revision-progress" style="width: 0%; background: linear-gradient(90deg, var(--warning), #fbbf24);"></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3><span class="card-icon">📉</span> Low Confidence</h3>
+                <p id="low-confidence-count">0 chapters</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="confidence-progress" style="width: 0%; background: linear-gradient(90deg, var(--accent-purple), #a78bfa);"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="controls">
+            <div class="control-group search-bar">
+                <label for="search">Search Chapters</label>
+                <input type="text" id="search" placeholder="Enter chapter name...">
+            </div>
+            <div class="control-group">
+                <label for="subject-filter">Filter by Subject</label>
+                <select id="subject-filter">
+                    <option value="all">All Subjects</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Mathematics">Mathematics</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="completion-filter">Filter by Completion</label>
+                <select id="completion-filter">
+                    <option value="all">All Status</option>
+                    <option value="Not Started">Not Started</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="sort-by">Sort By</label>
+                <select id="sort-by">
+                    <option value="default">Default Order</option>
+                    <option value="confidence">Lowest Confidence First</option>
+                    <option value="priority">Priority Order</option>
+                    <option value="completion">Completion Status</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="subject-panels">
+            <div class="subject-panel">
+                <div class="subject-header" onclick="toggleSubject('physics')">
+                    <h2><span class="subject-icon">⚛️</span> Physics</h2>
+                    <span id="physics-arrow">▼</span>
+                </div>
+                <div class="subject-content" id="physics-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Chapter</th>
+                                <th>Exams</th>
+                                <th>Completion</th>
+                                <th>Priority</th>
+                                <th>Confidence</th>
+                                <th>Level</th>
+                                <th>Memorization</th>
+                                <th>Revision</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="physics-chapters">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subject-panel">
+                <div class="subject-header" onclick="toggleSubject('chemistry')">
+                    <h2><span class="subject-icon">🧪</span> Chemistry</h2>
+                    <span id="chemistry-arrow">▼</span>
+                </div>
+                <div class="subject-content" id="chemistry-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Chapter</th>
+                                <th>Exams</th>
+                                <th>Completion</th>
+                                <th>Priority</th>
+                                <th>Confidence</th>
+                                <th>Level</th>
+                                <th>Memorization</th>
+                                <th>Revision</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="chemistry-chapters">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subject-panel">
+                <div class="subject-header" onclick="toggleSubject('mathematics')">
+                    <h2><span class="subject-icon">∫</span> Mathematics</h2>
+                    <span id="mathematics-arrow">▼</span>
+                </div>
+                <div class="subject-content" id="mathematics-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Chapter</th>
+                                <th>Exams</th>
+                                <th>Completion</th>
+                                <th>Priority</th>
+                                <th>Confidence</th>
+                                <th>Level</th>
+                                <th>Memorization</th>
+                                <th>Revision</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mathematics-chapters">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="saveData()">
+                <span>💾</span> Save Progress
+            </button>
+            <button class="btn btn-secondary" onclick="resetData()">
+                <span>🔄</span> Reset All Data
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Priority assignments - spent time researching which chapters are most important
+        // based on previous year JEE question patterns and coaching institute analysis
+        const chapterPriority = {
+            "Physics": {
+                "High": [
+                    "Kinematics", "NLM (Newton's Laws of Motion)", "Work-Power-Energy", 
+                    "Rotational Motion", "Electrostatics", "Current Electricity & Capacitance", 
+                    "Magnetism", "EMI (Electromagnetic Induction)", "Optics", "Modern & Nuclear Physics",
+                    "Geometrical Optics", "Wave Optics", "Centre of Mass", "Momentum & Collision",
+                    "Fluids", "Heat & Thermodynamics", "Waves", "SHM (Simple Harmonic Motion)", "Gravitation"
+                ],
+                "Medium": [
+                    "Circular Motion", "EM Waves", "Alternating Current"
+                ],
+                "Low": [
+                    "Friction", "Elasticity", "Calorimetry", "Thermal Expansion", 
+                    "Heat Transfer", "Error", "Damped & Forced Oscillation"
+                ]
+            },
+            "Chemistry": {
+                "High": [
+                    "Chemical Bonding", "Chemical & Ionic Equilibrium", "Thermodynamics", 
+                    "Electrochemistry", "Chemical Kinetics", "Co-ordination Chemistry", 
+                    "Hydrocarbon", "Carbonyl Compounds", "Alcohols & Ethers", "Aromatic Compounds",
+                    "P-Block", "D-Block", "Mole Concept", "Redox & Equivalent Concept", 
+                    "Atomic Structure", "Periodic Properties", "Biomolecules", "Carboxylic Acids & Amines"
+                ],
+                "Medium": [
+                    "IUPAC Nomenclature", "Liquid Solution", "General Chemistry"
+                ],
+                "Low": [
+                    "Ideal & Real Gas", "Thermochemistry", "Polymer & POC", 
+                    "Chemistry in Everyday Life", "Salt Analysis", "S-Block", 
+                    "Hydrogen & its Compounds", "F-Block", "Metallurgy", 
+                    "Environmental Chemistry", "Concentration Terms", "Alkyl Halides", 
+                    "Isomerism", "Common Names and Electronic Displacement Effect", 
+                    "Separation Technique"
+                ]
+            },
+            "Mathematics": {
+                "High": [
+                    "Quadratic Equation", "Sequence and Series", "Binomial Theorem", 
+                    "Permutation and Combination", "Probability", "Limits", 
+                    "Continuity & Differentiability", "Application of Derivative", 
+                    "Definite Integration", "Differential Equation", "Vector and 3D",
+                    "Straight Line", "Circle", "Parabola", "Ellipse", "Hyperbola",
+                    "Trigonometric Ratio Identities", "Trigonometric Equation", "Complex Number"
+                ],
+                "Medium": [
+                    "Function", "Inverse Trigonometric Function", "Matrices", 
+                    "Determinant", "Area Under The Curve", "Indefinite Integration"
+                ],
+                "Low": [
+                    "Sets", "Relations", "Fundamentals of Algebra", "Method of Differentiation", 
+                    "Solution Of Triangles", "Logarithms", "Statistics"
+                ]
+            }
+        };
+
+        // Exam-wise chapter mapping - which chapters appear in which exams
+        // this took a while to compile from syllabus documents
+        const chapterExams = {
+            "Physics": {
+                "JEE Mains": [
+                    "Kinematics", "NLM (Newton's Laws of Motion)", "Work-Power-Energy", 
+                    "Rotational Motion", "Electrostatics", "Current Electricity & Capacitance", 
+                    "Magnetism", "Optics", "Modern & Nuclear Physics", "Heat & Thermodynamics",
+                    "Waves", "SHM (Simple Harmonic Motion)", "Gravitation", "Fluids",
+                    "Geometrical Optics", "Wave Optics", "Centre of Mass", "Momentum & Collision",
+                    "Circular Motion", "EM Waves", "Alternating Current", "EMI (Electromagnetic Induction)"
+                ],
+                "JEE Advanced": [
+                    "Kinematics", "NLM (Newton's Laws of Motion)", "Work-Power-Energy", 
+                    "Rotational Motion", "Electrostatics", "Current Electricity & Capacitance", 
+                    "Magnetism", "EMI (Electromagnetic Induction)", "Optics", "Modern & Nuclear Physics",
+                    "Heat & Thermodynamics", "Waves", "SHM (Simple Harmonic Motion)", "Gravitation",
+                    "Centre of Mass", "Momentum & Collision", "Circular Motion", "EM Waves",
+                    "Alternating Current", "Fluids", "Geometrical Optics", "Wave Optics"
+                ],
+                "BITSAT": [
+                    "Kinematics", "NLM (Newton's Laws of Motion)", "Work-Power-Energy", 
+                    "Electrostatics", "Current Electricity & Capacitance", "Optics", 
+                    "Modern & Nuclear Physics", "Heat & Thermodynamics", "Waves",
+                    "SHM (Simple Harmonic Motion)", "Gravitation", "Fluids",
+                    "Geometrical Optics", "Wave Optics", "Magnetism"
+                ]
+            },
+            "Chemistry": {
+                "JEE Mains": [
+                    "Chemical Bonding", "Chemical & Ionic Equilibrium", "Thermodynamics", 
+                    "Electrochemistry", "Chemical Kinetics", "Co-ordination Chemistry", 
+                    "Hydrocarbon", "Carbonyl Compounds", "P-Block", "D-Block", 
+                    "Mole Concept", "Redox & Equivalent Concept", "Atomic Structure",
+                    "Periodic Properties", "Biomolecules", "Alcohols & Ethers", "Aromatic Compounds",
+                    "Carboxylic Acids & Amines", "IUPAC Nomenclature", "Liquid Solution"
+                ],
+                "JEE Advanced": [
+                    "Chemical Bonding", "Chemical & Ionic Equilibrium", "Thermodynamics", 
+                    "Electrochemistry", "Chemical Kinetics", "Co-ordination Chemistry", 
+                    "Hydrocarbon", "Carbonyl Compounds", "Alcohols & Ethers", "Aromatic Compounds",
+                    "P-Block", "D-Block", "Mole Concept", "Redox & Equivalent Concept", 
+                    "Atomic Structure", "Periodic Properties", "Biomolecules", "Carboxylic Acids & Amines",
+                    "IUPAC Nomenclature", "Liquid Solution", "General Chemistry"
+                ],
+                "BITSAT": [
+                    "Chemical Bonding", "Chemical & Ionic Equilibrium", "Thermodynamics", 
+                    "Electrochemistry", "Chemical Kinetics", "Hydrocarbon", 
+                    "Carbonyl Compounds", "P-Block", "Mole Concept", "Atomic Structure",
+                    "Periodic Properties", "Biomolecules", "Alcohols & Ethers", "Aromatic Compounds"
+                ]
+            },
+            "Mathematics": {
+                "JEE Mains": [
+                    "Quadratic Equation", "Sequence and Series", "Binomial Theorem", 
+                    "Permutation and Combination", "Probability", "Limits", 
+                    "Continuity & Differentiability", "Application of Derivative", 
+                    "Definite Integration", "Differential Equation", "Vector and 3D",
+                    "Trigonometric Ratio Identities", "Trigonometric Equation", 
+                    "Complex Number", "Matrices", "Determinant", "Straight Line", 
+                    "Circle", "Parabola", "Ellipse", "Hyperbola", "Area Under The Curve"
+                ],
+                "JEE Advanced": [
+                    "Quadratic Equation", "Sequence and Series", "Binomial Theorem", 
+                    "Permutation and Combination", "Probability", "Limits", 
+                    "Continuity & Differentiability", "Application of Derivative", 
+                    "Definite Integration", "Differential Equation", "Vector and 3D",
+                    "Trigonometric Ratio Identities", "Trigonometric Equation", 
+                    "Complex Number", "Matrices", "Determinant", "Straight Line", 
+                    "Circle", "Parabola", "Ellipse", "Hyperbola", "Area Under The Curve",
+                    "Function", "Inverse Trigonometric Function", "Indefinite Integration"
+                ],
+                "BITSAT": [
+                    "Quadratic Equation", "Sequence and Series", "Binomial Theorem", 
+                    "Permutation and Combination", "Probability", "Limits", 
+                    "Continuity & Differentiability", "Application of Derivative", 
+                    "Definite Integration", "Trigonometric Ratio Identities", 
+                    "Trigonometric Equation", "Complex Number", "Matrices",
+                    "Straight Line", "Circle", "Parabola", "Ellipse", "Hyperbola"
+                ]
+            }
+        };
+
+        // all chapters organized by subject
+        const initialChapters = {
+            Physics: [
+                "Kinematics", "NLM (Newton's Laws of Motion)", "Friction", "Work-Power-Energy", 
+                "Circular Motion", "Heat & Thermodynamics", "Fluids", "Elasticity", "Calorimetry", 
+                "Thermal Expansion", "Heat Transfer", "Current Electricity & Capacitance", 
+                "Geometrical Optics", "Error", "Waves", "Wave Optics", "EM Waves", "Electrostatics", 
+                "Gravitation", "EMI (Electromagnetic Induction)", "Alternating Current", "Magnetism", 
+                "Damped & Forced Oscillation", "SHM (Simple Harmonic Motion)", "Modern & Nuclear Physics", 
+                "Centre of Mass", "Momentum & Collision", "Rotational Motion"
+            ],
+            Chemistry: [
+                "Chemical Bonding", "P-Block", "Ideal & Real Gas", "Thermodynamics", "Thermochemistry", 
+                "Biomolecules", "Polymer & POC", "Chemistry in Everyday Life", "Aromatic Compounds", 
+                "Carboxylic Acids & Amines", "Co-ordination Chemistry", "D-Block", "Salt Analysis", 
+                "Chemical & Ionic Equilibrium", "Redox & Equivalent Concept", "Electrochemistry", 
+                "Hydrocarbon", "Carbonyl Compounds", "Alcohols & Ethers", "General Chemistry", 
+                "Periodic Properties", "S-Block", "Hydrogen & its Compounds", "F-Block", "Metallurgy", 
+                "Environmental Chemistry", "Atomic Structure", "Liquid Solution", "Chemical Kinetics", 
+                "Mole Concept", "Concentration Terms", "Alkyl Halides", "Isomerism", "IUPAC Nomenclature", 
+                "Common Names and Electronic Displacement Effect", "Separation Technique"
+            ],
+            Mathematics: [
+                "Trigonometric Ratio Identities", "Trigonometric Equation", "Relations", "Function", 
+                "Inverse Trigonometric Function", "Sets", "Fundamentals of Algebra", "Quadratic Equation", 
+                "Limits", "Continuity & Differentiability", "Method of Differentiation", "Complex Number", 
+                "Straight Line", "Circle", "Parabola", "Ellipse", "Hyperbola", "Application of Derivative", 
+                "Logarithms", "Sequence and Series", "Indefinite Integration", "Definite Integration", 
+                "Determinant", "Area Under The Curve", "Differential Equation", "Solution Of Triangles", 
+                "Binomial Theorem", "Permutation and Combination", "Probability", "Matrices", "Statistics", 
+                "Vector and 3D"
+            ]
+        };
+
+        // main data structure - load from localStorage or initialize fresh
+        let chaptersData = JSON.parse(localStorage.getItem('syllabusTrackerData')) || initializeData();
+
+        // initialize all chapter data with default values
+        function initializeData() {
+            const data = {};
+            for (const subject in initialChapters) {
+                data[subject] = initialChapters[subject].map(chapter => {
+                    // determine priority level
+                    let priority = "Medium";
+                    if (chapterPriority[subject]["High"].includes(chapter)) {
+                        priority = "High";
+                    } else if (chapterPriority[subject]["Low"].includes(chapter)) {
+                        priority = "Low";
+                    }
+
+                    // figure out which exams this chapter is in
+                    const exams = [];
+                    if (chapterExams[subject]["JEE Mains"].includes(chapter)) exams.push("JEE Mains");
+                    if (chapterExams[subject]["JEE Advanced"].includes(chapter)) exams.push("JEE Advanced");
+                    if (chapterExams[subject]["BITSAT"].includes(chapter)) exams.push("BITSAT");
+
+                    return {
+                        chapter_name: chapter,
+                        subject: subject,
+                        exams: exams,
+                        memorization_needed: Math.random() > 0.7,  // random default
+                        completion: "Not Started",
+                        priority: priority,
+                        confidence: 3,  // middle value
+                        level: "Foundation",
+                        revision_needed: false,
+                        notes: ""
+                    };
+                });
+            }
+            return data;
+        }
+
+        // render chapters in the table
+        function renderChapters(subject) {
+            const container = document.getElementById(`${subject.toLowerCase()}-chapters`);
+            container.innerHTML = '';
+            
+            chaptersData[subject].forEach((chapter, index) => {
+                const row = document.createElement('tr');
+                
+                // chapter name cell
+                const nameCell = document.createElement('td');
+                nameCell.textContent = chapter.chapter_name;
+                nameCell.style.fontWeight = '500';
+                row.appendChild(nameCell);
+                
+                // exam indicators - shows which exams test this chapter
+                const examsCell = document.createElement('td');
+                const examTracker = document.createElement('div');
+                examTracker.className = 'exam-tracker';
+                
+                ["JEE Mains", "JEE Advanced", "BITSAT"].forEach(exam => {
+                    const indicator = document.createElement('div');
+                    let examClass = '';
+                    if (chapter.exams.includes(exam)) {
+                        examClass = 'active ';
+                        if (exam === "JEE Mains") examClass += 'jee-mains';
+                        else if (exam === "JEE Advanced") examClass += 'jee-advanced';
+                    }
+                    indicator.className = `exam-indicator ${examClass}`;
+                    indicator.title = exam;
+                    examTracker.appendChild(indicator);
+                });
+                
+                examsCell.appendChild(examTracker);
+                row.appendChild(examsCell);
+                
+                // completion status dropdown
+                const completionCell = document.createElement('td');
+                const completionSelect = document.createElement('select');
+                ["Not Started", "In Progress", "Completed"].forEach(status => {
+                    const option = document.createElement('option');
+                    option.value = status;
+                    option.textContent = status;
+                    if (status === chapter.completion) option.selected = true;
+                    completionSelect.appendChild(option);
+                });
+                completionSelect.className = `completion-${chapter.completion.toLowerCase().replace(' ', '-')}`;
+                completionSelect.addEventListener('change', (e) => {
+                    chaptersData[subject][index].completion = e.target.value;
+                    e.target.className = `completion-${e.target.value.toLowerCase().replace(' ', '-')}`;
+                    updateDashboard();
+                });
+                completionCell.appendChild(completionSelect);
+                row.appendChild(completionCell);
+                
+                // priority dropdown
+                const priorityCell = document.createElement('td');
+                const prioritySelect = document.createElement('select');
+                ["High", "Medium", "Low"].forEach(priority => {
+                    const option = document.createElement('option');
+                    option.value = priority;
+                    option.textContent = priority;
+                    if (priority === chapter.priority) option.selected = true;
+                    prioritySelect.appendChild(option);
+                });
+                prioritySelect.className = `priority-${chapter.priority.toLowerCase()}`;
+                prioritySelect.addEventListener('change', (e) => {
+                    chaptersData[subject][index].priority = e.target.value;
+                    e.target.className = `priority-${e.target.value.toLowerCase()}`;
+                    updateDashboard();
+                });
+                priorityCell.appendChild(prioritySelect);
+                row.appendChild(priorityCell);
+                
+                // confidence level (1-5)
+                const confidenceCell = document.createElement('td');
+                const confidenceSelect = document.createElement('select');
+                for (let i = 1; i <= 5; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    if (i === chapter.confidence) option.selected = true;
+                    confidenceSelect.appendChild(option);
+                }
+                confidenceSelect.addEventListener('change', (e) => {
+                    chaptersData[subject][index].confidence = parseInt(e.target.value);
+                    updateDashboard();
+                });
+                confidenceCell.appendChild(confidenceSelect);
+                row.appendChild(confidenceCell);
+                
+                // learning level dropdown
+                const levelCell = document.createElement('td');
+                const levelSelect = document.createElement('select');
+                ["Foundation", "Practice", "Mastery"].forEach(level => {
+                    const option = document.createElement('option');
+                    option.value = level;
+                    option.textContent = level;
+                    if (level === chapter.level) option.selected = true;
+                    levelSelect.appendChild(option);
+                });
+                levelSelect.className = `level-${chapter.level.toLowerCase()}`;
+                levelSelect.addEventListener('change', (e) => {
+                    chaptersData[subject][index].level = e.target.value;
+                    e.target.className = `level-${e.target.value.toLowerCase()}`;
+                });
+                levelCell.appendChild(levelSelect);
+                row.appendChild(levelCell);
+                
+                // memorization checkbox
+                const memorizationCell = document.createElement('td');
+                const memorizationCheckbox = document.createElement('input');
+                memorizationCheckbox.type = 'checkbox';
+                memorizationCheckbox.checked = chapter.memorization_needed;
+                memorizationCheckbox.addEventListener('change', (e) => {
+                    chaptersData[subject][index].memorization_needed = e.target.checked;
+                });
+                memorizationCell.appendChild(memorizationCheckbox);
+                row.appendChild(memorizationCell);
+                
+                // revision needed checkbox
+                const revisionCell = document.createElement('td');
+                const revisionCheckbox = document.createElement('input');
+                revisionCheckbox.type = 'checkbox';
+                revisionCheckbox.checked = chapter.revision_needed;
+                revisionCheckbox.addEventListener('change', (e) => {
+                    chaptersData[subject][index].revision_needed = e.target.checked;
+                    updateDashboard();
+                });
+                revisionCell.appendChild(revisionCheckbox);
+                row.appendChild(revisionCell);
+                
+                // notes textarea
+                const notesCell = document.createElement('td');
+                const notesTextarea = document.createElement('textarea');
+                notesTextarea.className = 'notes';
+                notesTextarea.value = chapter.notes;
+                notesTextarea.placeholder = 'Add notes...';
+                notesTextarea.addEventListener('change', (e) => {
+                    chaptersData[subject][index].notes = e.target.value;
+                });
+                notesCell.appendChild(notesTextarea);
+                row.appendChild(notesCell);
+                
+                container.appendChild(row);
+            });
+        }
+
+        // calculate and update all the dashboard statistics
+        function updateDashboard() {
+            let totalChapters = 0;
+            let completedChapters = 0;
+            let inProgressChapters = 0;
+            let notStartedChapters = 0;
+            let highPriorityNotStarted = 0;
+            let totalHighPriority = 0;
+            let needRevision = 0;
+            let lowConfidence = 0;
+            
+            // loop through all subjects and count everything
+            for (const subject in chaptersData) {
+                chaptersData[subject].forEach(chapter => {
+                    totalChapters++;
+                    if (chapter.completion === "Completed") completedChapters++;
+                    if (chapter.completion === "In Progress") inProgressChapters++;
+                    if (chapter.completion === "Not Started") notStartedChapters++;
+                    if (chapter.priority === "High") {
+                        totalHighPriority++;
+                        if (chapter.completion === "Not Started") highPriorityNotStarted++;
+                    }
+                    if (chapter.revision_needed) needRevision++;
+                    if (chapter.confidence <= 2) lowConfidence++;  // confidence 1 or 2 is low
+                });
+            }
+            
+            // calculate percentages
+            const completionPercentage = totalChapters > 0 ? Math.round((completedChapters / totalChapters) * 100) : 0;
+            const highPriorityPercentage = totalHighPriority > 0 ? Math.round((highPriorityNotStarted / totalHighPriority) * 100) : 0;
+            const revisionPercentage = totalChapters > 0 ? Math.round((needRevision / totalChapters) * 100) : 0;
+            const confidencePercentage = totalChapters > 0 ? Math.round((lowConfidence / totalChapters) * 100) : 0;
+            
+            // update the progress bars
+            document.getElementById('overall-progress').style.width = `${completionPercentage}%`;
+            document.getElementById('overall-percentage').textContent = `${completionPercentage}%`;
+            document.getElementById('high-priority-count').textContent = `${highPriorityNotStarted} chapters`;
+            document.getElementById('high-priority-progress').style.width = `${highPriorityPercentage}%`;
+            document.getElementById('revision-count').textContent = `${needRevision} chapters`;
+            document.getElementById('revision-progress').style.width = `${revisionPercentage}%`;
+            document.getElementById('low-confidence-count').textContent = `${lowConfidence} chapters`;
+            document.getElementById('confidence-progress').style.width = `${confidencePercentage}%`;
+            
+            // update the stat cards
+            document.getElementById('completed-count').textContent = completedChapters;
+            document.getElementById('inprogress-count').textContent = inProgressChapters;
+            document.getElementById('notstarted-count').textContent = notStartedChapters;
+        }
+
+        // toggle subject panel open/closed
+        function toggleSubject(subject) {
+            const content = document.getElementById(`${subject}-content`);
+            const arrow = document.getElementById(`${subject}-arrow`);
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                arrow.textContent = '▼';
+            } else {
+                content.classList.add('active');
+                arrow.textContent = '▲';
+            }
+        }
+
+        // save progress to localStorage
+        function saveData() {
+            localStorage.setItem('syllabusTrackerData', JSON.stringify(chaptersData));
+            alert('Progress saved successfully!');
+        }
+
+        // reset all data back to defaults
+        function resetData() {
+            if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+                chaptersData = initializeData();
+                localStorage.removeItem('syllabusTrackerData');
+                renderAllChapters();
+                updateDashboard();
+                alert('All data has been reset.');
+            }
+        }
+
+        // apply all the filters and sorting
+        function applyFilters() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const subjectFilter = document.getElementById('subject-filter').value;
+            const completionFilter = document.getElementById('completion-filter').value;
+            const sortBy = document.getElementById('sort-by').value;
+            const activeExam = document.querySelector('.exam-tab.active').dataset.exam;
+            
+            for (const subject in chaptersData) {
+                // hide subjects that don't match filter
+                if (subjectFilter !== 'all' && subjectFilter !== subject) {
+                    document.getElementById(`${subject.toLowerCase()}-content`).style.display = 'none';
+                    continue;
+                }
+                
+                document.getElementById(`${subject.toLowerCase()}-content`).style.display = 'block';
+                
+                // filter chapters based on search and exam
+                const filteredChapters = chaptersData[subject].filter(chapter => {
+                    // search filter
+                    if (searchTerm && !chapter.chapter_name.toLowerCase().includes(searchTerm)) {
+                        return false;
+                    }
+                    
+                    // exam filter
+                    if (activeExam !== 'all') {
+                        const examMap = {
+                            'jee-mains': 'JEE Mains',
+                            'jee-advanced': 'JEE Advanced',
+                            'bitsat': 'BITSAT'
+                        };
+                        if (!chapter.exams.includes(examMap[activeExam])) {
+                            return false;
+                        }
+                    }
+                    
+                    // completion filter
+                    if (completionFilter !== 'all' && chapter.completion !== completionFilter) {
+                        return false;
+                    }
+                    
+                    return true;
+                });
+                
+                // apply sorting
+                if (sortBy === 'confidence') {
+                    filteredChapters.sort((a, b) => a.confidence - b.confidence);
+                } else if (sortBy === 'priority') {
+                    const priorityOrder = { 'High': 1, 'Medium': 2, 'Low': 3 };
+                    filteredChapters.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+                } else if (sortBy === 'completion') {
+                    const completionOrder = { 'Not Started': 1, 'In Progress': 2, 'Completed': 3 };
+                    filteredChapters.sort((a, b) => completionOrder[a.completion] - completionOrder[b.completion]);
+                }
+                
+                const container = document.getElementById(`${subject.toLowerCase()}-chapters`);
+                container.innerHTML = '';
+                
+                // show empty state if no chapters match
+                if (filteredChapters.length === 0) {
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 9;
+                    cell.style.textAlign = 'center';
+                    cell.style.padding = '40px';
+                    
+                    const emptyDiv = document.createElement('div');
+                    emptyDiv.className = 'empty-state';
+                    
+                    const icon = document.createElement('div');
+                    icon.className = 'empty-state-icon';
+                    icon.textContent = '🔍';
+                    
+                    const message = document.createElement('div');
+                    message.textContent = 'No chapters match the current filters.';
+                    
+                    emptyDiv.appendChild(icon);
+                    emptyDiv.appendChild(message);
+                    cell.appendChild(emptyDiv);
+                    row.appendChild(cell);
+                    container.appendChild(row);
+                } else {
+                    // render the filtered chapters
+                    filteredChapters.forEach((chapter, index) => {
+                        const originalIndex = chaptersData[subject].findIndex(c => c.chapter_name === chapter.chapter_name);
+                        const row = document.createElement('tr');
+                        
+                        // chapter name
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = chapter.chapter_name;
+                        nameCell.style.fontWeight = '500';
+                        row.appendChild(nameCell);
+                        
+                        // exam indicators
+                        const examsCell = document.createElement('td');
+                        const examTracker = document.createElement('div');
+                        examTracker.className = 'exam-tracker';
+                        
+                        ["JEE Mains", "JEE Advanced", "BITSAT"].forEach(exam => {
+                            const indicator = document.createElement('div');
+                            let examClass = '';
+                            if (chapter.exams.includes(exam)) {
+                                examClass = 'active ';
+                                if (exam === "JEE Mains") examClass += 'jee-mains';
+                                else if (exam === "JEE Advanced") examClass += 'jee-advanced';
+                            }
+                            indicator.className = `exam-indicator ${examClass}`;
+                            indicator.title = exam;
+                            examTracker.appendChild(indicator);
+                        });
+                        
+                        examsCell.appendChild(examTracker);
+                        row.appendChild(examsCell);
+                        
+                        // completion dropdown
+                        const completionCell = document.createElement('td');
+                        const completionSelect = document.createElement('select');
+                        ["Not Started", "In Progress", "Completed"].forEach(status => {
+                            const option = document.createElement('option');
+                            option.value = status;
+                            option.textContent = status;
+                            if (status === chapter.completion) option.selected = true;
+                            completionSelect.appendChild(option);
+                        });
+                        completionSelect.className = `completion-${chapter.completion.toLowerCase().replace(' ', '-')}`;
+                        completionSelect.addEventListener('change', (e) => {
+                            chaptersData[subject][originalIndex].completion = e.target.value;
+                            e.target.className = `completion-${e.target.value.toLowerCase().replace(' ', '-')}`;
+                            updateDashboard();
+                        });
+                        completionCell.appendChild(completionSelect);
+                        row.appendChild(completionCell);
+                        
+                        // priority dropdown
+                        const priorityCell = document.createElement('td');
+                        const prioritySelect = document.createElement('select');
+                        ["High", "Medium", "Low"].forEach(priority => {
+                            const option = document.createElement('option');
+                            option.value = priority;
+                            option.textContent = priority;
+                            if (priority === chapter.priority) option.selected = true;
+                            prioritySelect.appendChild(option);
+                        });
+                        prioritySelect.className = `priority-${chapter.priority.toLowerCase()}`;
+                        prioritySelect.addEventListener('change', (e) => {
+                            chaptersData[subject][originalIndex].priority = e.target.value;
+                            e.target.className = `priority-${e.target.value.toLowerCase()}`;
+                            updateDashboard();
+                        });
+                        priorityCell.appendChild(prioritySelect);
+                        row.appendChild(priorityCell);
+                        
+                        // confidence dropdown
+                        const confidenceCell = document.createElement('td');
+                        const confidenceSelect = document.createElement('select');
+                        for (let i = 1; i <= 5; i++) {
+                            const option = document.createElement('option');
+                            option.value = i;
+                            option.textContent = i;
+                            if (i === chapter.confidence) option.selected = true;
+                            confidenceSelect.appendChild(option);
+                        }
+                        confidenceSelect.addEventListener('change', (e) => {
+                            chaptersData[subject][originalIndex].confidence = parseInt(e.target.value);
+                            updateDashboard();
+                        });
+                        confidenceCell.appendChild(confidenceSelect);
+                        row.appendChild(confidenceCell);
+                        
+                        // level dropdown
+                        const levelCell = document.createElement('td');
+                        const levelSelect = document.createElement('select');
+                        ["Foundation", "Practice", "Mastery"].forEach(level => {
+                            const option = document.createElement('option');
+                            option.value = level;
+                            option.textContent = level;
+                            if (level === chapter.level) option.selected = true;
+                            levelSelect.appendChild(option);
+                        });
+                        levelSelect.className = `level-${chapter.level.toLowerCase()}`;
+                        levelSelect.addEventListener('change', (e) => {
+                            chaptersData[subject][originalIndex].level = e.target.value;
+                            e.target.className = `level-${e.target.value.toLowerCase()}`;
+                        });
+                        levelCell.appendChild(levelSelect);
+                        row.appendChild(levelCell);
+                        
+                        // memorization checkbox
+                        const memorizationCell = document.createElement('td');
+                        const memorizationCheckbox = document.createElement('input');
+                        memorizationCheckbox.type = 'checkbox';
+                        memorizationCheckbox.checked = chapter.memorization_needed;
+                        memorizationCheckbox.addEventListener('change', (e) => {
+                            chaptersData[subject][originalIndex].memorization_needed = e.target.checked;
+                        });
+                        memorizationCell.appendChild(memorizationCheckbox);
+                        row.appendChild(memorizationCell);
+                        
+                        // revision checkbox
+                        const revisionCell = document.createElement('td');
+                        const revisionCheckbox = document.createElement('input');
+                        revisionCheckbox.type = 'checkbox';
+                        revisionCheckbox.checked = chapter.revision_needed;
+                        revisionCheckbox.addEventListener('change', (e) => {
+                            chaptersData[subject][originalIndex].revision_needed = e.target.checked;
+                            updateDashboard();
+                        });
+                        revisionCell.appendChild(revisionCheckbox);
+                        row.appendChild(revisionCell);
+                        
+                        // notes textarea
+                        const notesCell = document.createElement('td');
+                        const notesTextarea = document.createElement('textarea');
+                        notesTextarea.className = 'notes';
+                        notesTextarea.value = chapter.notes;
+                        notesTextarea.placeholder = 'Add notes...';
+                        notesTextarea.addEventListener('change', (e) => {
+                            chaptersData[subject][originalIndex].notes = e.target.value;
+                        });
+                        notesCell.appendChild(notesTextarea);
+                        row.appendChild(notesCell);
+                        
+                        container.appendChild(row);
+                    });
+                }
+            }
+        }
+
+        // render all subject chapters
+        function renderAllChapters() {
+            for (const subject in chaptersData) {
+                renderChapters(subject);
+            }
+        }
+
+        // initialize the app when page loads
+        function initApp() {
+            renderAllChapters();
+            updateDashboard();
+            
+            // attach event listeners to filters
+            document.getElementById('search').addEventListener('input', applyFilters);
+            document.getElementById('subject-filter').addEventListener('change', applyFilters);
+            document.getElementById('completion-filter').addEventListener('change', applyFilters);
+            document.getElementById('sort-by').addEventListener('change', applyFilters);
+            
+            // exam tab click handlers
+            document.querySelectorAll('.exam-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.exam-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    applyFilters();
+                });
+            });
+            
+            // open physics by default
+            toggleSubject('physics');
+        }
+
+        // start everything when page is loaded
+        window.onload = initApp;
+    </script>
+</body>
+
+</html>

@@ -159,7 +159,7 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
             border-color: var(--navy-light);
         }
-
+        
         .card h3 {
             margin-bottom: 15px;
             color: var(--text-primary);
@@ -780,8 +780,10 @@
     </div>
 
     <script>
-        // Priority assignments - spent time researching which chapters are most important
-        // based on previous year JEE question patterns and coaching institute analysis
+        // The youtube gurus helped with the priority list
+        // to figure out which chapters actually matter vs which ones are just filler.
+        // Rotational Motion and Electrostatics, for example, show up every single year — non-negotiable atleast 1-2 questions.
+        // Some chapters like Elasticity and Damped Oscillations barely show up, so they're low. But high for 2025 so interesting.
         const chapterPriority = {
             "Physics": {
                 "High": [
@@ -811,6 +813,7 @@
                     "IUPAC Nomenclature", "Liquid Solution", "General Chemistry"
                 ],
                 "Low": [
+                    // these barely show up in exams — still worth a glance but don't obsess over them
                     "Ideal & Real Gas", "Thermochemistry", "Polymer & POC", 
                     "Chemistry in Everyday Life", "Salt Analysis", "S-Block", 
                     "Hydrogen & its Compounds", "F-Block", "Metallurgy", 
@@ -833,14 +836,16 @@
                     "Determinant", "Area Under The Curve", "Indefinite Integration"
                 ],
                 "Low": [
+                    // Sets and Relations are basically just definitions — quick to cover
                     "Sets", "Relations", "Fundamentals of Algebra", "Method of Differentiation", 
                     "Solution Of Triangles", "Logarithms", "Statistics"
                 ]
             }
         };
 
-        // Exam-wise chapter mapping - which chapters appear in which exams
-        // this took a while to compile from syllabus documents
+        // which chapters appear in which exams — cross-referenced from the official syllabi.
+        // JEE Advanced tends to have everything JEE Mains has, plus a few extras.
+        // BITSAT is a bit more selective and skips some of the advanced stuff but overfixates on METALLURGY(why).
         const chapterExams = {
             "Physics": {
                 "JEE Mains": [
@@ -860,6 +865,7 @@
                     "Alternating Current", "Fluids", "Geometrical Optics", "Wave Optics"
                 ],
                 "BITSAT": [
+                    // BITSAT drops a few of the more advanced topics compared to JEE
                     "Kinematics", "NLM (Newton's Laws of Motion)", "Work-Power-Energy", 
                     "Electrostatics", "Current Electricity & Capacitance", "Optics", 
                     "Modern & Nuclear Physics", "Heat & Thermodynamics", "Waves",
@@ -909,6 +915,7 @@
                     "Trigonometric Ratio Identities", "Trigonometric Equation", 
                     "Complex Number", "Matrices", "Determinant", "Straight Line", 
                     "Circle", "Parabola", "Ellipse", "Hyperbola", "Area Under The Curve",
+                    // Advanced adds these three — they don't appear in Mains
                     "Function", "Inverse Trigonometric Function", "Indefinite Integration"
                 ],
                 "BITSAT": [
@@ -922,7 +929,8 @@
             }
         };
 
-        // all chapters organized by subject
+        // the master list of all chapters, grouped by subject.
+        // order doesn't really matter here — we sort and filter later anyway.
         const initialChapters = {
             Physics: [
                 "Kinematics", "NLM (Newton's Laws of Motion)", "Friction", "Work-Power-Energy", 
@@ -956,23 +964,26 @@
             ]
         };
 
-        // main data structure - load from localStorage or initialize fresh
+        // try to load saved data from localStorage so progress isn't lost on refresh.
+        // if nothing's saved yet, we start fresh with initializeData().
         let chaptersData = JSON.parse(localStorage.getItem('syllabusTrackerData')) || initializeData();
 
-        // initialize all chapter data with default values
+        // builds the initial data structure with sensible defaults for every chapter.
+        // runs only once — when the user opens the app for the first time.
         function initializeData() {
             const data = {};
+
             for (const subject in initialChapters) {
                 data[subject] = initialChapters[subject].map(chapter => {
-                    // determine priority level
-                    let priority = "Medium";
+                    // figure out the priority for this chapter based on our research
+                    let priority = "Medium"; // default if it's not in High or Low lists
                     if (chapterPriority[subject]["High"].includes(chapter)) {
                         priority = "High";
                     } else if (chapterPriority[subject]["Low"].includes(chapter)) {
                         priority = "Low";
                     }
 
-                    // figure out which exams this chapter is in
+                    // check which exams include this chapter
                     const exams = [];
                     if (chapterExams[subject]["JEE Mains"].includes(chapter)) exams.push("JEE Mains");
                     if (chapterExams[subject]["JEE Advanced"].includes(chapter)) exams.push("JEE Advanced");
@@ -982,38 +993,42 @@
                         chapter_name: chapter,
                         subject: subject,
                         exams: exams,
-                        memorization_needed: Math.random() > 0.7,  // random default
+                        // random default for memorization — user can toggle this themselves
+                        memorization_needed: Math.random() > 0.7,
                         completion: "Not Started",
                         priority: priority,
-                        confidence: 3,  // middle value
+                        confidence: 3, // start everyone at 3/5 — neutral middle ground
                         level: "Foundation",
                         revision_needed: false,
                         notes: ""
                     };
                 });
             }
+
             return data;
         }
 
-        // render chapters in the table
+        // draws the chapter rows for a single subject (Physics, Chemistry, or Math).
+        // called when we first load AND when we reset — basically rebuilds the table from scratch.
         function renderChapters(subject) {
             const container = document.getElementById(`${subject.toLowerCase()}-chapters`);
-            container.innerHTML = '';
-            
+            container.innerHTML = ''; // wipe whatever was there before
+
             chaptersData[subject].forEach((chapter, index) => {
                 const row = document.createElement('tr');
-                
-                // chapter name cell
+
+                // --- Chapter Name ---
                 const nameCell = document.createElement('td');
                 nameCell.textContent = chapter.chapter_name;
                 nameCell.style.fontWeight = '500';
                 row.appendChild(nameCell);
-                
-                // exam indicators - shows which exams test this chapter
+
+                // --- Exam Indicators (colored dots showing which exams test this chapter) ---
+                // blue = JEE Mains, purple = JEE Advanced, red = BITSAT (default color) pretty right(dk who likes orange)
                 const examsCell = document.createElement('td');
                 const examTracker = document.createElement('div');
                 examTracker.className = 'exam-tracker';
-                
+
                 ["JEE Mains", "JEE Advanced", "BITSAT"].forEach(exam => {
                     const indicator = document.createElement('div');
                     let examClass = '';
@@ -1021,16 +1036,17 @@
                         examClass = 'active ';
                         if (exam === "JEE Mains") examClass += 'jee-mains';
                         else if (exam === "JEE Advanced") examClass += 'jee-advanced';
+                        // BITSAT just uses the default active color
                     }
                     indicator.className = `exam-indicator ${examClass}`;
-                    indicator.title = exam;
+                    indicator.title = exam; // tooltip on hover so you know which dot is which
                     examTracker.appendChild(indicator);
                 });
-                
+
                 examsCell.appendChild(examTracker);
                 row.appendChild(examsCell);
-                
-                // completion status dropdown
+
+                // --- Completion Dropdown ---
                 const completionCell = document.createElement('td');
                 const completionSelect = document.createElement('select');
                 ["Not Started", "In Progress", "Completed"].forEach(status => {
@@ -1043,13 +1059,14 @@
                 completionSelect.className = `completion-${chapter.completion.toLowerCase().replace(' ', '-')}`;
                 completionSelect.addEventListener('change', (e) => {
                     chaptersData[subject][index].completion = e.target.value;
+                    // update the CSS class so the color changes immediately
                     e.target.className = `completion-${e.target.value.toLowerCase().replace(' ', '-')}`;
-                    updateDashboard();
+                    updateDashboard(); // refresh the stats at the top
                 });
                 completionCell.appendChild(completionSelect);
                 row.appendChild(completionCell);
-                
-                // priority dropdown
+
+                // --- Priority Dropdown ---
                 const priorityCell = document.createElement('td');
                 const prioritySelect = document.createElement('select');
                 ["High", "Medium", "Low"].forEach(priority => {
@@ -1067,8 +1084,8 @@
                 });
                 priorityCell.appendChild(prioritySelect);
                 row.appendChild(priorityCell);
-                
-                // confidence level (1-5)
+
+                // --- Confidence Dropdown (1 = barely know it, 5 = totally solid) ---
                 const confidenceCell = document.createElement('td');
                 const confidenceSelect = document.createElement('select');
                 for (let i = 1; i <= 5; i++) {
@@ -1080,12 +1097,12 @@
                 }
                 confidenceSelect.addEventListener('change', (e) => {
                     chaptersData[subject][index].confidence = parseInt(e.target.value);
-                    updateDashboard();
+                    updateDashboard(); // low confidence count in dashboard needs to update
                 });
                 confidenceCell.appendChild(confidenceSelect);
                 row.appendChild(confidenceCell);
-                
-                // learning level dropdown
+
+                // --- Level Dropdown (tracks how deep into the chapter you've gone) ---
                 const levelCell = document.createElement('td');
                 const levelSelect = document.createElement('select');
                 ["Foundation", "Practice", "Mastery"].forEach(level => {
@@ -1099,50 +1116,57 @@
                 levelSelect.addEventListener('change', (e) => {
                     chaptersData[subject][index].level = e.target.value;
                     e.target.className = `level-${e.target.value.toLowerCase()}`;
+                    // no dashboard update needed here — level isn't tracked in the summary cards
                 });
                 levelCell.appendChild(levelSelect);
                 row.appendChild(levelCell);
-                
-                // memorization checkbox
+
+                // --- Memorization Checkbox ---
+                // check this if the chapter needs formula cramming / rote learning(depends on the person so an interesting feature).
                 const memorizationCell = document.createElement('td');
                 const memorizationCheckbox = document.createElement('input');
                 memorizationCheckbox.type = 'checkbox';
                 memorizationCheckbox.checked = chapter.memorization_needed;
                 memorizationCheckbox.addEventListener('change', (e) => {
                     chaptersData[subject][index].memorization_needed = e.target.checked;
+                    // not tracked in dashboard so no update call needed
                 });
                 memorizationCell.appendChild(memorizationCheckbox);
                 row.appendChild(memorizationCell);
-                
-                // revision needed checkbox
+
+                // --- Revision Needed Checkbox ---
+                // useful for chapters you've done but feel shaky on — keeps them on your radar(like Vectors and 3D are easy but forgetful)
                 const revisionCell = document.createElement('td');
                 const revisionCheckbox = document.createElement('input');
                 revisionCheckbox.type = 'checkbox';
                 revisionCheckbox.checked = chapter.revision_needed;
                 revisionCheckbox.addEventListener('change', (e) => {
                     chaptersData[subject][index].revision_needed = e.target.checked;
-                    updateDashboard();
+                    updateDashboard(); // "Need Revision" card at the top needs to update
                 });
                 revisionCell.appendChild(revisionCheckbox);
                 row.appendChild(revisionCell);
-                
-                // notes textarea
+
+                // --- Notes Text area ---
+                // free-form space for personal notes, weak topics, resource links, etc.(added later for links or lectures or short notes etc)
                 const notesCell = document.createElement('td');
                 const notesTextarea = document.createElement('textarea');
                 notesTextarea.className = 'notes';
                 notesTextarea.value = chapter.notes;
                 notesTextarea.placeholder = 'Add notes...';
                 notesTextarea.addEventListener('change', (e) => {
+                    // 'change' fires on blur, which is fine — we don't need live updates here
                     chaptersData[subject][index].notes = e.target.value;
                 });
                 notesCell.appendChild(notesTextarea);
                 row.appendChild(notesCell);
-                
+
                 container.appendChild(row);
             });
         }
 
-        // calculate and update all the dashboard statistics
+        // recalculates and updates all four summary cards at the top of the page.
+        // should be called any time completion, priority, confidence, or revision data changes.
         function updateDashboard() {
             let totalChapters = 0;
             let completedChapters = 0;
@@ -1152,30 +1176,36 @@
             let totalHighPriority = 0;
             let needRevision = 0;
             let lowConfidence = 0;
-            
-            // loop through all subjects and count everything
+
+            // go through every chapter in every subject and tally things up
             for (const subject in chaptersData) {
                 chaptersData[subject].forEach(chapter => {
                     totalChapters++;
+
                     if (chapter.completion === "Completed") completedChapters++;
                     if (chapter.completion === "In Progress") inProgressChapters++;
                     if (chapter.completion === "Not Started") notStartedChapters++;
+
+                    // we want to know how many HIGH priority chapters are still untouched (in the front for indication of urgency).
                     if (chapter.priority === "High") {
                         totalHighPriority++;
                         if (chapter.completion === "Not Started") highPriorityNotStarted++;
                     }
+
                     if (chapter.revision_needed) needRevision++;
-                    if (chapter.confidence <= 2) lowConfidence++;  // confidence 1 or 2 is low
+
+                    // confidence of 1 or 2 means you really don't feel good about it
+                    if (chapter.confidence <= 2) lowConfidence++;
                 });
             }
-            
-            // calculate percentages
+
+            // convert counts to percentages for the progress bars
             const completionPercentage = totalChapters > 0 ? Math.round((completedChapters / totalChapters) * 100) : 0;
             const highPriorityPercentage = totalHighPriority > 0 ? Math.round((highPriorityNotStarted / totalHighPriority) * 100) : 0;
             const revisionPercentage = totalChapters > 0 ? Math.round((needRevision / totalChapters) * 100) : 0;
             const confidencePercentage = totalChapters > 0 ? Math.round((lowConfidence / totalChapters) * 100) : 0;
-            
-            // update the progress bars
+
+            // push the numbers into the DOM
             document.getElementById('overall-progress').style.width = `${completionPercentage}%`;
             document.getElementById('overall-percentage').textContent = `${completionPercentage}%`;
             document.getElementById('high-priority-count').textContent = `${highPriorityNotStarted} chapters`;
@@ -1184,34 +1214,37 @@
             document.getElementById('revision-progress').style.width = `${revisionPercentage}%`;
             document.getElementById('low-confidence-count').textContent = `${lowConfidence} chapters`;
             document.getElementById('confidence-progress').style.width = `${confidencePercentage}%`;
-            
-            // update the stat cards
+
+            // also update the three small stat boxes inside the Overall Progress card
             document.getElementById('completed-count').textContent = completedChapters;
             document.getElementById('inprogress-count').textContent = inProgressChapters;
             document.getElementById('notstarted-count').textContent = notStartedChapters;
         }
 
-        // toggle subject panel open/closed
+        // opens or closes a subject panel when the user clicks the header.
+        // the arrow icon flips direction so it's obvious which state we're in.
         function toggleSubject(subject) {
             const content = document.getElementById(`${subject}-content`);
             const arrow = document.getElementById(`${subject}-arrow`);
-            
+
             if (content.classList.contains('active')) {
                 content.classList.remove('active');
-                arrow.textContent = '▼';
+                arrow.textContent = '▼'; // pointing down means "click to expand"
             } else {
                 content.classList.add('active');
-                arrow.textContent = '▲';
+                arrow.textContent = '▲'; // pointing up means "click to collapse"
             }
         }
 
-        // save progress to localStorage
+        // writes current progress to localStorage so it survives page refreshes.
+        // user has to click this manually — we don't auto-save to avoid performance issues.
         function saveData() {
             localStorage.setItem('syllabusTrackerData', JSON.stringify(chaptersData));
             alert('Progress saved successfully!');
         }
 
-        // reset all data back to defaults
+        // nukes everything and starts fresh — useful if you want a clean slate.
+        // the confirm() dialog is there so you don't accidentally wipe months of data.
         function resetData() {
             if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
                 chaptersData = initializeData();
@@ -1222,32 +1255,36 @@
             }
         }
 
-        // apply all the filters and sorting
+        // reads all the active filters and re-renders chapters accordingly.
+        // this is called every time any filter, sort, or exam tab changes.
         function applyFilters() {
             const searchTerm = document.getElementById('search').value.toLowerCase();
             const subjectFilter = document.getElementById('subject-filter').value;
             const completionFilter = document.getElementById('completion-filter').value;
             const sortBy = document.getElementById('sort-by').value;
+
+            // figure out which exam tab is currently active
             const activeExam = document.querySelector('.exam-tab.active').dataset.exam;
-            
+
             for (const subject in chaptersData) {
-                // hide subjects that don't match filter
+                // if the user filtered to a different subject, just hide this one and move on
                 if (subjectFilter !== 'all' && subjectFilter !== subject) {
                     document.getElementById(`${subject.toLowerCase()}-content`).style.display = 'none';
                     continue;
                 }
-                
+
                 document.getElementById(`${subject.toLowerCase()}-content`).style.display = 'block';
-                
-                // filter chapters based on search and exam
+
+                // apply all the active filters to narrow down the chapter list
                 const filteredChapters = chaptersData[subject].filter(chapter => {
-                    // search filter
+                    // text search — checks if the chapter name contains the search string
                     if (searchTerm && !chapter.chapter_name.toLowerCase().includes(searchTerm)) {
                         return false;
                     }
-                    
-                    // exam filter
+
+                    // exam filter — only show chapters that appear in the selected exam
                     if (activeExam !== 'all') {
+                        // map the tab's data-exam value to the actual exam name string
                         const examMap = {
                             'jee-mains': 'JEE Mains',
                             'jee-advanced': 'JEE Advanced',
@@ -1257,69 +1294,73 @@
                             return false;
                         }
                     }
-                    
-                    // completion filter
+
+                    // completion status filter
                     if (completionFilter !== 'all' && chapter.completion !== completionFilter) {
                         return false;
                     }
-                    
-                    return true;
+
+                    return true; // passed all filters — include it
                 });
-                
-                // apply sorting
+
+                // sort the filtered results
                 if (sortBy === 'confidence') {
+                    // chapters you feel worst about come first — tackle the scary ones early
                     filteredChapters.sort((a, b) => a.confidence - b.confidence);
                 } else if (sortBy === 'priority') {
                     const priorityOrder = { 'High': 1, 'Medium': 2, 'Low': 3 };
                     filteredChapters.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
                 } else if (sortBy === 'completion') {
+                    // not started → in progress → completed
                     const completionOrder = { 'Not Started': 1, 'In Progress': 2, 'Completed': 3 };
                     filteredChapters.sort((a, b) => completionOrder[a.completion] - completionOrder[b.completion]);
                 }
-                
+                // 'default' just keeps the original order from initialChapters
+
                 const container = document.getElementById(`${subject.toLowerCase()}-chapters`);
-                container.innerHTML = '';
-                
-                // show empty state if no chapters match
+                container.innerHTML = ''; // clear before re-rendering
+
+                // nothing matched the filters — show a friendly empty state instead of a blank table
                 if (filteredChapters.length === 0) {
                     const row = document.createElement('tr');
                     const cell = document.createElement('td');
                     cell.colSpan = 9;
                     cell.style.textAlign = 'center';
                     cell.style.padding = '40px';
-                    
+
                     const emptyDiv = document.createElement('div');
                     emptyDiv.className = 'empty-state';
-                    
+
                     const icon = document.createElement('div');
                     icon.className = 'empty-state-icon';
                     icon.textContent = '🔍';
-                    
+
                     const message = document.createElement('div');
                     message.textContent = 'No chapters match the current filters.';
-                    
+
                     emptyDiv.appendChild(icon);
                     emptyDiv.appendChild(message);
                     cell.appendChild(emptyDiv);
                     row.appendChild(cell);
                     container.appendChild(row);
                 } else {
-                    // render the filtered chapters
-                    filteredChapters.forEach((chapter, index) => {
+                    // render the filtered & sorted chapters
+                    // we need to track back to the original index so edits update the right entry in chaptersData
+                    filteredChapters.forEach((chapter) => {
                         const originalIndex = chaptersData[subject].findIndex(c => c.chapter_name === chapter.chapter_name);
                         const row = document.createElement('tr');
-                        
-                        // chapter name
+
+                        // --- Chapter Name ---
                         const nameCell = document.createElement('td');
                         nameCell.textContent = chapter.chapter_name;
                         nameCell.style.fontWeight = '500';
                         row.appendChild(nameCell);
-                        
-                        // exam indicators
+
+                        // --- Exam Dots ---
                         const examsCell = document.createElement('td');
                         const examTracker = document.createElement('div');
                         examTracker.className = 'exam-tracker';
-                        
+
                         ["JEE Mains", "JEE Advanced", "BITSAT"].forEach(exam => {
                             const indicator = document.createElement('div');
                             let examClass = '';
@@ -1332,11 +1373,12 @@
                             indicator.title = exam;
                             examTracker.appendChild(indicator);
                         });
-                        
+
                         examsCell.appendChild(examTracker);
                         row.appendChild(examsCell);
-                        
-                        // completion dropdown
+
+                        // --- Completion Dropdown ---
+                        // note: we use originalIndex here, not the filtered list index
                         const completionCell = document.createElement('td');
                         const completionSelect = document.createElement('select');
                         ["Not Started", "In Progress", "Completed"].forEach(status => {
@@ -1354,8 +1396,8 @@
                         });
                         completionCell.appendChild(completionSelect);
                         row.appendChild(completionCell);
-                        
-                        // priority dropdown
+
+                        // --- Priority Dropdown ---
                         const priorityCell = document.createElement('td');
                         const prioritySelect = document.createElement('select');
                         ["High", "Medium", "Low"].forEach(priority => {
@@ -1373,8 +1415,8 @@
                         });
                         priorityCell.appendChild(prioritySelect);
                         row.appendChild(priorityCell);
-                        
-                        // confidence dropdown
+
+                        // --- Confidence Dropdown ---
                         const confidenceCell = document.createElement('td');
                         const confidenceSelect = document.createElement('select');
                         for (let i = 1; i <= 5; i++) {
@@ -1390,8 +1432,8 @@
                         });
                         confidenceCell.appendChild(confidenceSelect);
                         row.appendChild(confidenceCell);
-                        
-                        // level dropdown
+
+                        // --- Level Dropdown ---
                         const levelCell = document.createElement('td');
                         const levelSelect = document.createElement('select');
                         ["Foundation", "Practice", "Mastery"].forEach(level => {
@@ -1408,8 +1450,8 @@
                         });
                         levelCell.appendChild(levelSelect);
                         row.appendChild(levelCell);
-                        
-                        // memorization checkbox
+
+                        // --- Memorization Checkbox ---
                         const memorizationCell = document.createElement('td');
                         const memorizationCheckbox = document.createElement('input');
                         memorizationCheckbox.type = 'checkbox';
@@ -1419,8 +1461,8 @@
                         });
                         memorizationCell.appendChild(memorizationCheckbox);
                         row.appendChild(memorizationCell);
-                        
-                        // revision checkbox
+
+                        // --- Revision Checkbox ---
                         const revisionCell = document.createElement('td');
                         const revisionCheckbox = document.createElement('input');
                         revisionCheckbox.type = 'checkbox';
@@ -1431,8 +1473,8 @@
                         });
                         revisionCell.appendChild(revisionCheckbox);
                         row.appendChild(revisionCell);
-                        
-                        // notes textarea
+
+                        // --- Notes Textarea ---
                         const notesCell = document.createElement('td');
                         const notesTextarea = document.createElement('textarea');
                         notesTextarea.className = 'notes';
@@ -1443,32 +1485,32 @@
                         });
                         notesCell.appendChild(notesTextarea);
                         row.appendChild(notesCell);
-                        
+
                         container.appendChild(row);
                     });
                 }
             }
         }
 
-        // render all subject chapters
+        // convenience function to re-render all three subject tables at once
         function renderAllChapters() {
             for (const subject in chaptersData) {
                 renderChapters(subject);
             }
         }
 
-        // initialize the app when page loads
+        // everything starts here when the page loads
         function initApp() {
             renderAllChapters();
             updateDashboard();
-            
-            // attach event listeners to filters
+
+            // wire up the filter controls — any change should immediately re-filter the view
             document.getElementById('search').addEventListener('input', applyFilters);
             document.getElementById('subject-filter').addEventListener('change', applyFilters);
             document.getElementById('completion-filter').addEventListener('change', applyFilters);
             document.getElementById('sort-by').addEventListener('change', applyFilters);
-            
-            // exam tab click handlers
+
+            // exam tab switching — deactivate all, activate the clicked one, then re-filter
             document.querySelectorAll('.exam-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     document.querySelectorAll('.exam-tab').forEach(t => t.classList.remove('active'));
@@ -1476,14 +1518,13 @@
                     applyFilters();
                 });
             });
-            
-            // open physics by default
+
+            // open Physics by default so the user sees something useful right away
             toggleSubject('physics');
         }
 
-        // start everything when page is loaded
+        // kick everything off once the DOM is ready
         window.onload = initApp;
     </script>
 </body>
-
 </html>
